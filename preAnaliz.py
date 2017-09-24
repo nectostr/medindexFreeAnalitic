@@ -14,9 +14,9 @@ pdata = pd.read_csv('analysis.csv', delimiter=';')
 rdata = pd.DataFrame(columns = [])
 # pdata.__len__()
 
-for i in range(0, 900000):
+for i in range(0, 10000):
     try:
-        rdata.set_value(pdata.iloc[i, 0], pdata.iloc[i, 6], pdata.iloc[i, 10])
+        rdata.set_value(pdata.iloc[i, 0], pdata.iloc[i, 6], pdata.iloc[i, 11])
     except:
         rdata.set_value(pdata.iloc[i, 0], pdata.iloc[i, 6], 0)
 
@@ -42,11 +42,18 @@ for i in range(0, len(rdata.columns)-1):
     for j in range (i+1, len(rdata.columns)):
         f = pd.DataFrame()
         f[i] = rdata.iloc[:,i].copy()
+        # print(f[i])
         f[j] = rdata.iloc[:,j].copy()
         f = f.dropna(axis=0, how='any')
-        print(f)
-        print(f.corr())
-        CorrCoef.append(f.corr())
+        if (not f.empty):
+            print(f)
+            print(i, ' ', j)
+
+            CorrCoef.append(f.corr())
+
+
+        # print(f.corr())
+
 # print(rdata)
 '''
 a = [[1,2,3],[2,4,6]]
@@ -56,9 +63,10 @@ bdf = pd.DataFrame(b)
 print(a)
 print(b)
 print(adf.corr())
-print(bdf.corr())''' # а это значит что корреляция все же по столбцам
+print(bdf.corr()) '''# а это значит что корреляция все же по столбцам
 # for i in range(0, len(CorrCoef)):
+
     # CorrCoef[i] = CorrCoef.dropna(axis=0, how='any')
-for i in CorrCoef:
-    print(i)
-    print('\n')
+# for i in CorrCoef:
+#     print(i)
+#     print('\n')
