@@ -10,6 +10,7 @@ import scipy as sc
 # !!!
 # pdata Pandas data frame
 # !!!
-
-
-print(float('1,2'))
+pdata = pd.read_csv('analysis.csv', sep = ';')
+rdata = pd.read_csv('analysis.csv', sep = ';', delimiter = ';')
+print (pdata)
+print(rdata == pdata)
