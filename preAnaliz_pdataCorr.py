@@ -16,7 +16,7 @@ a = set()
 rdata = pd.DataFrame(columns = [])
 # pdata.__len__()
 
-for i in range(0, 90000):
+for i in range(0, pdata.__len__()):
     try:
         rdata.set_value(pdata.iloc[i, 0], pdata.iloc[i, 6], float(pdata.iloc[i, 9]))
     except:
@@ -43,17 +43,23 @@ CorrCoef = []
 for i in range(0, len(rdata.columns)-1):
     for j in range (i+1, len(rdata.columns)):
         f = pd.DataFrame()
-
-        f[i] = rdata.iloc[1:,i].copy()
-        f[j] = rdata.iloc[1:,j].copy()
+        
+        f[rdata.columns.values[i]] = rdata.iloc[1:,i].copy()
+        f[rdata.columns.values[j]] = rdata.iloc[1:,j].copy()
         f = f.dropna(axis=0, how='any')
 
-        fcorr = f.corr()
-        fcorr = fcorr.dropna(axis=0, how='any')
-        fcorr = fcorr.dropna(axis=1, how='any')
-        if (not fcorr.empty ):
-            print(f.corr())
-            CorrCoef.append(f.corr())
+        fkencorr = f.corr('kendall')
+        fpearcorr = f.corr('pearson')
+        fspeacorr = f.corr('spearman')
+        fkencorr = fkencorr.dropna(axis=0, how='any')
+        fkencorr = fkencorr.dropna(axis=1, how='any')
+        fpearcorr = fpearcorr.dropna(axis=0, how='any')
+        fpearcorr = fpearcorr.dropna(axis=1, how='any')
+        fspeacorr = fspeacorr.dropna(axis=0, how='any')
+        fspeacorr = fspeacorr.dropna(axis=1, how='any')
+        if (not fspeacorr.empty and fpearcorr.iloc[0][1] != float(1) and  fpearcorr.iloc[0][1] != float(-1)):
+            # print(fcorr.iloc[0][1])
+            CorrCoef.append(fpearcorr)
 
 
         # print(f.corr())
@@ -77,9 +83,9 @@ for i in range(0, len(rdata.columns)-1):
 # for i in range(0, len(CorrCoef)):
 
     # CorrCoef[i] = CorrCoef.dropna(axis=0, how='any')
-# for i in CorrCoef:
-#     print(i)
-#     print('\n')
+for i in CorrCoef:
+    print(i)
+    print('\n')
 
 
 
